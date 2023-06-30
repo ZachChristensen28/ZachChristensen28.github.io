@@ -10,7 +10,7 @@ image:
     alt: The unofficial guide to getting the Nginx Proxy Manager logs into Splunk.
 ---
 
-The [Nginx Proxy Manager](https://nginxproxymanager.com/){: target="blank" } is an easy way to expose services securely. This pre-built docker image enables you to easily forward to your websites running at home or otherwise, including free SSL, without knowing too much about Nginx or Letsencrypt.
+The [Nginx Proxy Manager](https://nginxproxymanager.com/){: target="blank" } is an effortless way to expose services securely. This pre-built docker image enables you to easily forward to your websites running at home or otherwise, including free SSL, without knowing too much about Nginx or Letsencrypt.
 
 ## What this guide is
 
