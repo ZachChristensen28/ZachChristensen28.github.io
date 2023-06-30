@@ -5,6 +5,7 @@ timezone: America/Denver
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
+
 title: ZachTheSplunker
 tagline: Splunk pro tips and occasionally useful information from a Splunker.
 description: >-
