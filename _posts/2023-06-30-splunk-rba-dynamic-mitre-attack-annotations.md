@@ -2,7 +2,7 @@
 layout: post
 title: 'Splunk RBA: Dynamic Mitre ATT&CK Annotations'
 date: 2022-11-12
-permalink: /splunk-rba-dynamic-mitre-annotations
+permalink: /splunk-rba-dynamic-mitre-annotations/
 categories: ["Walk-through"]
 tags: ["rba", "enterprise security", "mitre att&ck", "sandfly security"]
 image:

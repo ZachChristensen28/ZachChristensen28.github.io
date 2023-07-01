@@ -2,7 +2,7 @@
 layout: post
 title: 'SOAR Enrichment: Powershell Encoded Commands'
 date: 2023-03-31
-permalink: /soar-powershell
+permalink: /soar-powershell/
 categories: ["Walk-through"]
 tags: ["soar", "enrichment", "attack range"]
 image:

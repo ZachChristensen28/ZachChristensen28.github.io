@@ -2,7 +2,7 @@
 layout: post
 title: 'Splunk ES: Risk Notable Urgency'
 date: 2023-01-11
-permalink: /risk-notable-urgency
+permalink: /risk-notable-urgency/
 categories: ["Walk-through"]
 tags: ["rba", "enterprise security"]
 image:
