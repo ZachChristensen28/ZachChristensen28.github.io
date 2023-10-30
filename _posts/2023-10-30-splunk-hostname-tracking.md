@@ -10,11 +10,14 @@ image:
     alt: Track hostnames over time
 ---
 
-Keeping track of the relationship between hostnames and IP addresses over time gives important context during incident response or any other forensic activity. This article will walk-through one way of how to accomplish this in Splunk.
+Keeping track of the relationship between hostnames and IP addresses over time gives important context during incident response or any other forensic activity. This article will walk through one way to accomplish this in Splunk. 
+
+> Time-based looks are a great way to track artifacts that change over time. This is just one example of how to leverage them.
+{: .prompt-tip }
 
 ## The Problem
 
-It may be challenging to look back in your logs and identify what a hostname was for the ip `192.168.24.20` three months ago. We could create a dashboard to correlate the DHCP events (or another data source) around the time of the event and output the hostname at that time. But what if there was another way. A way to automatically output the hostname during that time to the event during search-time. 
+It may be challenging to look back in your logs and identify what a hostname was for the IP `192.168.24.20` three months ago. We could create a dashboard to correlate the DHCP events (or another data source) around the time of the event and output the hostname at that time. But what if there was another way? A way to automatically output the hostname during that time to the event during search time. 
 
 ## Solution Walk-through
 
@@ -36,9 +39,9 @@ _Figure 3: Expected outcome_
 
 ### Data Source
 
-The data source choice will come down to what is available in your environment. We are really looking for a data source that provides accurate IP to Hostname mapping. For this example, I will be leveraging a built-in external command to query my DNS servers in real-time for the hostname of an IP.
+The data source choice will come down to what is available in your environment. We are seeking a data source that provides accurate IP to Hostname mapping. For this example, I will leverage a built-in external command to query my DNS servers in real time for the hostname of an IP.
 
-> This method will put significant load on your DNS servers in large environments. It is recommended to use an existing data source in Splunk to correlate the hostname. 
+> This method will put a significant load on your DNS servers in large environments. It is recommended to use an existing data source in Splunk to correlate the hostname. 
 {: .prompt-warning }
 
 ### KVStore lookup
@@ -61,7 +64,7 @@ accelerated_fields.clientip = {"clientip": 1}
 ```
 {: file="collections.conf" }
 
-In this case we are keeping it simple and only storing the IP, hostname, and the time. Update the stanza's name `zts_ip_hostname_tracker_collection` to the name you would like to use.
+In this case we are keeping it simple and only storing the IP, hostname, and the time. Update the stanza's name, `zts_ip_hostname_tracker_collection` to the name you would like to use.
 
 **transforms.conf**
 
@@ -74,7 +77,7 @@ time_field    = _time
 ```
 {: file="transforms.conf" }
 
-Define the lookup and add the `time_field` to be equal to the time field in the collections.conf file. Again you can change the stanza `zts_ip_hostname_tracker` to a name you would prefer. 
+Define the lookup and add the `time_field` to equal the time field in the collections.conf file. Again, you can change the stanza `zts_ip_hostname_tracker` to a name you would prefer. 
 
 ### Scheduled Search
 
@@ -96,7 +99,7 @@ $ip$ IN("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16")
 ```
 {: file="zts_local_ip(1) search macro" }
 
-The use of `_index_earliest/latest` is used to look at that event index time rather than the event timestamp. 
+The `_index_earliest/latest` is used to look at that event index time rather than the event timestamp. 
 
 #### Define fields and table
 
@@ -109,7 +112,7 @@ The use of `_index_earliest/latest` is used to look at that event index time rat
 ```
 {: file="SPL" }
 
-`local_src` and `local_dest` are being defined to collect the internal IP in the event. `clientip` then combines those fields into one field. The stats command tables each client ip with the latest time. 
+`local_src` and `local_dest` are being defined to collect the internal IP in the event. `clientip` then combines those fields into one field. The stats command tables each client's ip with the latest time. 
 
 #### DNS lookup
 
@@ -128,7 +131,7 @@ The use of `_index_earliest/latest` is used to look at that event index time rat
 ```
 {: file="SPL" }
 
-Using the `outputlookup` command we write the results to our KVStore file `zts_ip_hostname_tracker`. Be sure to update the lookup name to the one you chose. `append=true` is set to not overwrite the lookup but just to add to it each time the search runs. 
+Using the `outputlookup` command, we write the results to our KVStore file `zts_ip_hostname_tracker`. Be sure to update the lookup name to the one you chose. `append=true` is set to not overwrite the lookup but to add to it each time the search runs. 
 
 #### Full example
 
@@ -155,15 +158,15 @@ index=firewall (`zts_local_ip(src)` OR `zts_local_ip(dest)`) _index_earliest=-6m
 
 #### Schedule
 
-Save your search as a Report and to run over "All Time" (since we have our _index_earliest/latest set). In my environment I set this to run every five minutes with the Highest Priority to ensure it always run when it needs to. Determine the best window for your search to run in your environment.
+Save your search as a Report and run over "All Time" (since we have our _index_earliest/latest set). In my environment, I set this to run every five minutes with the Highest Priority to ensure it always runs when it needs to. Determine the best window for your search to run in your environment.
 
 ## Optimize
 
-Now that we have our search creating records in our lookup table. We can see that this lookup table will grow exceptional large very quickly. Here are two strategies for keeping your lookup size from growing to large. 
+Now that we have our search creating records in our lookup table. We can see that this lookup table will grow exceptionally large very quickly. Here are two strategies for keeping your lookup size from growing too large. 
 
 1. Create a retention policy based on time.
-    - You can create a secondary search that looks at your lookup table and "cleans" out old records by time. For example, after 90 days the record will be removed.
-2. <small><strong>(Definitley do this)</strong></small> Update the search we just created to write to the lookup **_only_** when the hostname has changed.
+    - You can create a secondary search that looks at your lookup table and "cleans" out old records by time. For example, after 90 days, the record will be removed.
+2. <small><strong>(Definitely do this)</strong></small> Update the search we just created to write to the lookup **_only_** when the hostname has changed.
 
 ### Optimize scheduled search
 
@@ -175,7 +178,7 @@ All we need to do to write to the lookup table only when there is a change of ho
 ```
 {: file="SPL" }
 
-Here we are just looking up the existing hostname and comparing it to the one that was just querired. The "where" condition will then remove any events that have a match allowing us to write to the lookup only when there is a change or new record.
+Here, we are just looking up the existing hostname and comparing it to the one queried. The "where" condition will then remove any events with a match, allowing us to write to the lookup only when there is a change or new record.
 
 **Full example with change**
 
@@ -194,14 +197,14 @@ index=firewall (`zts_local_ip(src)` OR `zts_local_ip(dest)`) _index_earliest=-6m
 ```
 {: file="SPL" }
 
-This slight change will keep your lookups from growing out of control. However, you will still want to keep an eye on the size of your lookups. If they grow to large, you can begin experiencing performance issues. See the [Docs](https://docs.splunk.com/Documentation/ES/latest/Admin/TroubleshootperformancelargeKVStore){: target="blank" } for more information.
+This slight change will keep your lookups from growing out of control. However, you will still want to keep an eye on the size of your lookups. If they grow too large, you can begin experiencing performance issues. See the [Docs](https://docs.splunk.com/Documentation/ES/latest/Admin/TroubleshootperformancelargeKVStore){: target="blank" } for more information.
 
 ## Create Auto-lookup
 
 > See [Splunk Documentation](https://docs.splunk.com/Documentation/SplunkCloud/latest/Knowledge/Makeyourlookupautomatic){: target="blank" } for more information on automatic lookups.
 {: .prompt-info }
 
-Now that we have our lookup table file populated with hostname information, we can begin applying it to our data for the hostname to automatically be outputted during search time. 
+Now that we have our lookup table file populated with hostname information, we can begin applying it to our data for the hostname to be outputted during search time automatically. 
 
 ### props.conf
 
@@ -212,7 +215,7 @@ LOOKUP-zts_dest_ip_hostname_tracker = zts_ip_hostname_tracker clientip AS dest O
 ```
 {: file="props.conf" }
 
-In this example the `src` and `dest` fields are being targeted for automatic enrichment with a new field to appear as either `src_hostname` or `dest_hostname`. Keep in mind you can change all of the names and even target additional fields. Also note that this will only work for the `bro:conn:json` sourcetype. 
+In this example, the `src` and `dest` fields are being targeted for automatic enrichment with a new field to appear as either `src_hostname` or `dest_hostname`. Keep in mind you can change all of the names and even target additional fields. Also, note that this will only work for the `bro:conn:json` sourcetype. 
 
 If you wanted this to apply to all sourcetypes to automatically enrich fields for all data sources, you can change the stanza name to `default`:
 
@@ -225,4 +228,4 @@ LOOKUP-zts_dest_ip_hostname_tracker = zts_ip_hostname_tracker clientip AS dest O
 
 ## Conclusion
 
-With just a small amount of setup, you can enrich your data with hostnames that are time-specific. This way you can search an event from a few months ago and see what the hostname for that IP was at that time. This will provide great context during investigations and will save a lot of time and effort when trying to track down a hostname from a specific time period.
+With just a small amount of setup, you can enrich your data with hostnames that correspond to the timeframe you are looking at. This way, you can search for an event from a few months ago and see what the hostname for that IP was at that time. This will provide great context during investigations and save time and effort to track down a hostname from a specific period.
