@@ -7,7 +7,10 @@ timezone: America/Denver
 # ↓ --------------------------
 
 title: ZachTheSplunker
-tagline: Splunk pro tips and occasionally useful information from a Splunker.
+tagline: |-
+  Splunk pro tips and occasionally useful information from a Splunker.
+  
+  This site is not affiliated with Splunk (https://splunk.com).
 description: >-
   Find topics on getting data in Splunk, pro tips, and various tutorials from ZachTheSplunker.
 
