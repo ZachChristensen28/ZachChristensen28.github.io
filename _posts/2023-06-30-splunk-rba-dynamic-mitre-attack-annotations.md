@@ -41,6 +41,9 @@ The first thing we need to do is build a Risk Rule in Splunk Enterprise Security
 
 ### Building the search
 
+> Update for Splunk Enterprise Security > 7.3 [Jump to section](#updated-search-for-es--73)
+{: .prompt-tip }
+
 We will build a search to generate a risk event for Sandfly Alarms. These alarms occur when Sandfly detects suspicious activity on an endpoint. For this article, we will not go into detail about the construction of this search. Instead, we will look at the elements that allow us to map to the Risk Framework.
 
 Starting from line three of the below image _(Figure 1)_, we extract the MITRE ATT&CK technique ID followed by a rename and eval statements to map the expected fields. The example output from this search can be seen in Figure 2.
@@ -79,6 +82,31 @@ We can then view all the risk events in the Risk Event Timeline to further analy
 
 ![Risk Event Timeline](/assets/img/rba-mitre/risk-timeline.png){: .shadow w="800" h="500" }
 _Figure 7: Risk Event Timeline_
+
+## Updated Search for ES > 7.3
+
+Later versions of Splunk Enterprise Security have a much simpler process for add annotations via SPL. Now we can just target the MITRE Technique ID and use a json object to format the data the way we need.
+
+### Before
+
+```python
+...
+| rename mitre_attack AS annotations.mitre_attack
+| eval 
+    "annotations._frameworks"="mitre_attack",
+    "annotations._all"='annotations.mitre_attack',
+...
+```
+{: file="SPL" }
+
+### After
+
+```python
+...
+| eval annotations=case(isnotnull(mitre_attack), json_object("mitre_attack", mitre_attack)),
+...
+```
+{: file="SPL" }
 
 ## Conclusion
 
