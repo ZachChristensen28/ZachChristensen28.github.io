@@ -14,6 +14,10 @@
 - type: rss
   icon: "fas fa-rss"
 
+- type: tor
+  icon: "fa-solid fa-user-ninja"
+  url: http://zachmrdntwymik2z5yxae5jmcrnihehjaclzpiwylesoskrnb3d5lqyd.onion
+
 # Uncomment and complete the url below to enable more contact options
 #
 # - type: mastodon
