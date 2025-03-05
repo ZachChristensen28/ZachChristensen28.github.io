@@ -8,27 +8,21 @@ timezone: America/Denver
 
 title: ZachTheSplunker
 tagline: |-
-  Splunk pro tips and occasionally helpful information from a Splunker (I dabble).
-  
-  This site is not affiliated with Splunk (https://splunk.com).
+  Pro tips and occasionally helpful information from a security enthusiast.
+
 description: >-
-  Find topics on getting data in Splunk, pro tips, and various tutorials from ZachTheSplunker.
+  Find topics on getting data in Splunk, pro tips, and various tutorials from a former security analyst.
 
 url: "https://zachristensen.com"
 
 github:
   username: ZachChristensen28
 
-twitter: 
-  username: zachthesplunker
-
 social:
   name: Zachary Christensen
-  email: zach@zachthesplunker.com
   links:
-    - https://www.linkedin.com/in/zachthesplunker
+    - https://www.linkedin.com/in/presecurityzach
     - https://github.com/ZachChristensen28
-    - https://fosstodon.org/@ZachTheSplunker/
 
 google_site_verification: # fill in to your verification string
 
