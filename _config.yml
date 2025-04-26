@@ -6,12 +6,12 @@ timezone: America/Denver
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: ZachTheSplunker
+title: Zach Christensen
 tagline: |-
   Pro tips and occasionally helpful information from a security enthusiast.
 
 description: >-
-  Find topics on getting data in Splunk, pro tips, and various tutorials from a former security analyst.
+  ro tips and occasionally helpful information from a security enthusiast.
 
 url: "https://zachristensen.com"
 

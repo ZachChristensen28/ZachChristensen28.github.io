@@ -5,11 +5,7 @@
 
 - type: linkedin
   icon: "fab fa-linkedin"
-  url: https://www.linkedin.com/in/zachthesplunker
-
-- type: mastodon
-  icon: "fab fa-mastodon"
-  url: https://fosstodon.org/@ZachTheSplunker
+  url: https://www.linkedin.com/in/presecurityzach
 
 - type: rss
   icon: "fas fa-rss"
