@@ -13,7 +13,7 @@ tagline: |-
 description: >-
   ro tips and occasionally helpful information from a security enthusiast.
 
-url: "https://zachristensen.com"
+url: "https://blog.zachristensen.com"
 
 github:
   username: ZachChristensen28
@@ -21,7 +21,7 @@ github:
 social:
   name: Zachary Christensen
   links:
-    - https://www.linkedin.com/in/presecurityzach
+    - https://www.linkedin.com/in/christensenz
     - https://github.com/ZachChristensen28
 
 google_site_verification: # fill in to your verification string
@@ -57,7 +57,7 @@ theme_mode: # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: /assets/img/avatar-pre.png
+avatar: /assets/img/avatar-plain.png
 
 # boolean type, the global switch for TOC in posts.
 toc: true
